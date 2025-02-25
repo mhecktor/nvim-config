@@ -41,8 +41,26 @@ return { -- Linting
 		-- lint.linters_by_ft['ruby'] = nil
 		-- lint.linters_by_ft['terraform'] = nil
 		-- lint.linters_by_ft['text'] = nil
-		-- lint.linters_by_ft["typescript"] = { "eslint", "deno" }
+		lint.linters_by_ft["typescript"] = { "eslint", "deno" }
 		lint.linters_by_ft["lua"] = { "luacheck" }
+
+		lint.linters.luacheck = {
+			name = "luacheck",
+			cmd = "luacheck",
+			stdin = true,
+			args = {
+				"--globals",
+				"vim",
+				"lvim",
+				"reload",
+				"--",
+			},
+			stream = "stdout",
+			ignore_exitcode = true,
+			parser = require("lint.parser").from_errorformat("%f:%l:%c: %m", {
+				source = "luacheck",
+			}),
+		}
 
 		-- javascript, javascriptreact, javascript.jsx, typescript, typescriptreact, typescript.tsx
 		-- Create autocommand which carries out the actual linting

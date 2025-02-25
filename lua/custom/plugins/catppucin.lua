@@ -2,6 +2,7 @@ return {
 	"catppuccin/nvim",
 	name = "catppuccin",
 	priority = 1000,
+	enabled = false,
 	config = function()
 		require("catppuccin").setup({
 			transparent_background = true,
@@ -43,6 +44,6 @@ return {
 				}
 			end,
 		})
-		vim.cmd.colorscheme("catppuccin")
+		-- vim.cmd.colorscheme("catppuccin")
 	end,
 }

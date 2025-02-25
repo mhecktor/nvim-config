@@ -1,3 +1,32 @@
+-- Icons to use in the completion menu.
+local symbol_kinds = {
+	Class = "",
+	Color = "",
+	Constant = "",
+	Constructor = "",
+	Enum = "",
+	EnumMember = "",
+	Event = "",
+	Field = "",
+	File = "",
+	Folder = "",
+	Function = "",
+	Interface = "",
+	Keyword = "",
+	Method = "",
+	Module = "",
+	Operator = "",
+	Property = "",
+	Reference = "",
+	Snippet = "",
+	Struct = "",
+	Text = "",
+	TypeParameter = "",
+	Unit = "",
+	Value = "",
+	Variable = "",
+}
+
 return {
 	{ -- Autocompletion
 		"hrsh7th/nvim-cmp",
@@ -40,6 +69,8 @@ return {
 			-- See `:help cmp`
 			local cmp = require("cmp")
 			local luasnip = require("luasnip")
+			local types = require("luasnip.util.types")
+
 			local lspkind = require("lspkind")
 			lspkind.init({
 				symbol_map = {
@@ -57,6 +88,40 @@ return {
 			cmp.event:on("menu_closed", function()
 				vim.b.copilot_suggestion_hidden = false
 			end)
+
+			-- HACK: Cancel the snippet session when leaving insert mode.
+			vim.api.nvim_create_autocmd("ModeChanged", {
+				group = vim.api.nvim_create_augroup("UnlinkSnippetOnModeChange", { clear = true }),
+				pattern = { "s:n", "i:*" },
+				callback = function(event)
+					if
+						luasnip.session
+						and luasnip.session.current_nodes[event.buf]
+						and not luasnip.session.jump_active
+					then
+						luasnip.unlink_current()
+					end
+				end,
+			})
+
+			luasnip.setup({
+				-- Display a cursor-like placeholder in unvisited nodes
+				-- of the snippet.
+				ext_opts = {
+					[types.insertNode] = {
+						unvisited = {
+							virt_text = { { "|", "Conceal" } },
+							virt_text_pos = "inline",
+						},
+					},
+					[types.exitNode] = {
+						unvisited = {
+							virt_text = { { "|", "Conceal" } },
+							virt_text_pos = "inline",
+						},
+					},
+				},
+			})
 
 			cmp.setup({
 				snippet = {
@@ -124,7 +189,11 @@ return {
 					-- Manually trigger a completion from nvim-cmp.
 					--  Generally you don't need this, because nvim-cmp will display
 					--  completions whenever it has completion options available.
-					["<C-Space>"] = cmp.mapping.complete({}),
+					-- ["<C-Space>"] = cmp.mapping.confirm({
+					-- 	behavior = cmp.ConfirmBehavior.Replace,
+					-- 	select = true,
+					-- }),
+					-- ["<C-Space>"] = cmp.mapping.complete({}),
 
 					-- Think of <c-l> as moving to the right of your snippet expansion.
 					--  So if you have a snippet that's like:
@@ -149,9 +218,9 @@ return {
 				}),
 				sources = {
 					{ name = "nvim_lsp", group_index = 1 },
-					{ name = "luasnip", group_index = 2 },
+					{ name = "luasnip", group_index = 3 },
 					-- { name = 'path' },
-					{ name = "copilot", group_index = 1 },
+					{ name = "copilot", group_index = 2 },
 				},
 			})
 		end,
