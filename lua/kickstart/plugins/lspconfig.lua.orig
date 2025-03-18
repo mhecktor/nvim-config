@@ -1,10 +1,10 @@
 -- local function organize_imports()
--- 	local params = {
--- 		command = "organizeImports",
--- 		arguments = { vim.api.nvim_buf_get_name(0) },
--- 		title = "",
--- 	}
--- 	vim.lsp.buf.execute_command(params)
+--   local params = {
+--     command = "organizeImports",
+--     arguments = { vim.api.nvim_buf_get_name(0) },
+--     title = "",
+--   }
+--   vim.lsp.buf.execute_command(params)
 -- end
 
 return {
@@ -184,56 +184,109 @@ return {
       local vue_language_server_path = mason_registry.get_package("vue-language-server"):get_install_path()
           .. "/node_modules/@vue/language_server"
 
-			local servers = {
-				-- clangd = {},
-				-- vuels = {},
-				volar = {
-					-- cmd = { "npx", "vue-language-server", "--stdio" },
-					settings = {
-						css = {
-							validate = true,
-						},
-						scss = {
-							validate = true,
-						},
-					},
-				},
-				gopls = {},
-				pyright = {},
-				ruff = {},
-				rust_analyzer = {},
-				biome = {},
-				-- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
-				--
-				-- Some languages (like typescript) have entire language plugins that can be useful:
-				--    https://github.com/pmizio/typescript-tools.nvim
-				--
-				-- But for many setups, the LSP (`tsserver`) will work just fine
-				-- eslint = {},
-				ts_ls = {
-					root_dir = require("lspconfig").util.root_pattern("tsconfig.json", "package.json"),
-					single_file_support = false,
-					init_options = {
-						plugins = {
-							{
-								name = "@vue/typescript-plugin",
-								location = "/Users/mhecktor/.nvm/versions/node/v22.4.1/lib/node_modules/@vue/language-server",
-								languages = { "vue" },
-							},
-						},
-					},
-					commands = {
-						OrganizeImports = {
-							organize_imports,
-							description = "Organize Imports",
-						},
-					},
-					filetypes = { "typescript", "javascript", "javascriptreact", "typescriptreact", "vue" },
-				},
-				denols = {
-					single_file_support = false,
-					root_dir = require("lspconfig").util.root_pattern("deno.json", "deno.jsonc"),
-				},
+<<<<<<< HEAD
+      local servers = {
+        -- clangd = {},
+        -- vuels = {},
+        volar = {
+          -- cmd = { "npx", "vue-language-server", "--stdio" },
+          settings = {
+            css = {
+              validate = true,
+            },
+            scss = {
+              validate = true,
+            },
+          },
+        },
+        gopls = {},
+        pyright = {},
+        -- ruff_lsp = {},
+        ruff = {},
+        rust_analyzer = {},
+        biome = {},
+        -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
+        --
+        -- Some languages (like typescript) have entire language plugins that can be useful:
+        --    https://github.com/pmizio/typescript-tools.nvim
+        --
+        -- But for many setups, the LSP (`tsserver`) will work just fine
+        -- eslint = {},
+        ts_ls = {
+          root_dir = require("lspconfig").util.root_pattern("tsconfig.json", "package.json"),
+          single_file_support = false,
+          init_options = {
+            plugins = {
+              {
+                name = "@vue/typescript-plugin",
+                location = "/Users/mhecktor/.nvm/versions/node/v22.4.1/lib/node_modules/@vue/language-server",
+                languages = { "vue" },
+              },
+            },
+          },
+          commands = {
+            OrganizeImports = {
+              organize_imports,
+              description = "Organize Imports",
+            },
+          },
+          filetypes = { "typescript", "javascript", "javascriptreact", "typescriptreact", "vue" },
+        },
+        denols = {
+          root_dir = require("lspconfig").util.root_pattern("deno.json", "deno.jsonc"),
+        },
+=======
+      local servers = {
+        -- clangd = {},
+        -- vuels = {},
+        volar = {
+          -- cmd = { "npx", "vue-language-server", "--stdio" },
+          settings = {
+            css = {
+              validate = true,
+            },
+            scss = {
+              validate = true,
+            },
+          },
+        },
+        gopls = {},
+        pyright = {},
+        ruff = {},
+        rust_analyzer = {},
+        biome = {},
+        -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
+        --
+        -- Some languages (like typescript) have entire language plugins that can be useful:
+        --    https://github.com/pmizio/typescript-tools.nvim
+        --
+        -- But for many setups, the LSP (`tsserver`) will work just fine
+        -- eslint = {},
+        ts_ls = {
+          root_dir = require("lspconfig").util.root_pattern("tsconfig.json", "package.json"),
+          single_file_support = false,
+          init_options = {
+            plugins = {
+              {
+                name = "@vue/typescript-plugin",
+                location = "/Users/mhecktor/.nvm/versions/node/v22.4.1/lib/node_modules/@vue/language-server",
+                languages = { "vue" },
+              },
+            },
+          },
+          commands = {
+            OrganizeImports = {
+              organize_imports,
+              description = "Organize Imports",
+            },
+          },
+          filetypes = { "typescript", "javascript", "javascriptreact", "typescriptreact", "vue" },
+        },
+        denols = {
+          single_file_support = false,
+          root_dir = require("lspconfig").util.root_pattern("deno.json", "deno.jsonc"),
+        },
+>>>>>>> 47a4b00 (Prevent deno from linting every matching file)
 
         lua_ls = {
           -- cmd = {...},
